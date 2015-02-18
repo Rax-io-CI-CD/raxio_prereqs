@@ -1,0 +1,21 @@
+DEPENDENCIES
+  raxio
+    path: .
+    metadata: true
+
+GRAPH
+  apt (2.6.1)
+  build-essential (2.1.3)
+  jenkins (2.2.2)
+    apt (~> 2.0)
+    runit (~> 1.5)
+    yum (~> 3.0)
+  raxio (0.0.1)
+    jenkins (~> 2.0)
+  runit (1.5.16)
+    build-essential (>= 0.0.0)
+    yum (~> 3.0)
+    yum-epel (>= 0.0.0)
+  yum (3.5.3)
+  yum-epel (0.6.0)
+    yum (~> 3.0)
