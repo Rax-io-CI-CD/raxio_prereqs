@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     raxiodemo.vm.box = BOX
     raxiodemo.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/#{PROVIDER}/opscode_#{BOX}_chef-provisionerless.box"
     raxiodemo.vm.network "forwarded_port", guest: 8080, host: 8000 # jenkins
-    raxiodemo.vm.network "forwarded_port", guest: 9090, host: 8001 # sonar
+    raxiodemo.vm.network "forwarded_port", guest: 9000, host: 8001 # sonar
     raxiodemo.vm.network "forwarded_port", guest: 10000, host: 8002 # jenkins
     raxiodemo.vm.network "private_network", ip: "66.66.66.101"
     raxiodemo.vm.provider "virtualbox" do |v|
@@ -31,6 +31,11 @@ Vagrant.configure("2") do |config|
       chef.cookbooks_path = '.chef/cookbooks'
       chef.environment = 'development'
       chef.run_list = [ "role[development]" ]
+      chef.json = {
+        'sonar' => {
+          'os_kernel' => 'linux-x86-64'
+        }
+      }
     end
   end
 
