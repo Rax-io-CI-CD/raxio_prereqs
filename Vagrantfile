@@ -31,11 +31,6 @@ Vagrant.configure("2") do |config|
       chef.cookbooks_path = '.chef/cookbooks'
       chef.environment = 'development'
       chef.run_list = [ "role[development]" ]
-      chef.json = {
-        'sonar' => {
-          'os_kernel' => 'linux-x86-64'
-        }
-      }
     end
   end
 

@@ -8,4 +8,6 @@ version          '0.0.2'
 
 depends 'jenkins',   '~> 2.0'
 depends 'maven'
-depends 'sonar'
+depends 'java'
+depends 'yum'
+depends 'sonarqube'
