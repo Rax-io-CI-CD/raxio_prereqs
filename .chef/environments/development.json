@@ -7,5 +7,9 @@
   "json_class": "Chef::Environment",
   "name": "development",
   "override_attributes": {
+    "sonarqube": {
+      "os_kernel": "linux-x86-64",
+      "version": "5.0"
+    }
   }
 }
