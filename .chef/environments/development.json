@@ -10,6 +10,9 @@
     "sonarqube": {
       "os_kernel": "linux-x86-64",
       "version": "5.0"
+    },
+    "java": {
+      "jdk_version": "7"
     }
   }
 }

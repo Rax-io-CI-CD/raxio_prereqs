@@ -6,7 +6,7 @@ Prerequisites for Raxio 2015
 - Jenkins 
 - Sonar
 - Autocreator (STILL TO DO)
-- Ansible (STILL TO DO)
+- Ansible
 - Chef server (STILL TO DO)
 - Jenkins plugins and jobs (STILL TO DO)
   - Build Flow
@@ -31,7 +31,7 @@ Prerequisites for Raxio 2015
     - Unit\_tests
     - Functional\_tests
     - Performance\_tests
-- Git (STILL TO DO)
+- Git
 - Ruby (STILL TO DO)
 - Java
 - Scripts (STILL TO DO)

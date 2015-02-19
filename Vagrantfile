@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
     raxiodemo.vm.network "forwarded_port", guest: 9000, host: 8001 # sonar
     raxiodemo.vm.network "forwarded_port", guest: 10000, host: 8002 # jenkins
     raxiodemo.vm.network "private_network", ip: "66.66.66.101"
+
     raxiodemo.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--memory", 2048]
       v.customize ["modifyvm", :id, "--cpus", 2]
@@ -32,6 +33,12 @@ Vagrant.configure("2") do |config|
       chef.environment = 'development'
       chef.run_list = [ "role[development]" ]
     end
+    raxiodemo.vm.provision :shell, path: "bootstrap.sh"
+    raxiodemo.vm.synced_folder "src/ansible", "/usr/ansible/"
+    raxiodemo.vm.provision "file", source: "src/ansible.cfg", destination: "/home/vagrant/.ansible.cfg"
+    raxiodemo.vm.provision "file", source: "src/profile", destination: "/home/vagrant/.profile"
+    raxiodemo.vm.provision "file", source: "src/raxpub", destination: "/home/vagrant/.raxpub"
+    raxiodemo.vm.provision "file", source: "src/ansible_hosts", destination: "/home/vagrant/ansible_hosts"
   end
 
 end
