@@ -33,5 +33,6 @@ Prerequisites for Raxio 2015
     - Performance\_tests
 - Git
 - Ruby (STILL TO DO)
+- Python (STILL TO DO)
 - Java
 - Scripts (STILL TO DO)
