@@ -7,7 +7,7 @@ Prerequisites for Raxio 2015
 - Sonar
 - Autocreator (STILL TO DO)
 - Ansible (STILL TO DO)
-- Chef (STILL TO DO)
+- Chef server (STILL TO DO)
 - Jenkins plugins and jobs (STILL TO DO)
   - Build Flow
     - Upstream\_master\_pulldown
