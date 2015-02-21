@@ -1,0 +1,30 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Orchestrates the entire process of validating downstream patch
+artifactNumToKeep: 10
+numOfJobsToKeep: 10
+daysToKeep: 10
+buildParams:
+  - paramName: BranchName
+    paramValue: "Internal branch"
+    paramDesc:  "Internal branch"
+    paramType: string
+  - paramName: sha1
+    paramValue: "Internal sha1"
+    paramDesc:  "Internal sha1"
+    paramType: string
+dsl: |
+     private_build = build(params, &quot;raxio_jobs_data_build&quot;)
+     branch = private_build.environment.get(&quot;BUILD_NAME&quot;)
+     sha1 = private_build.environment.get(&quot;SHA1&quot;)
+     build(&quot;raxio_jobs_data_unit_tests&quot;, BranchName: branch)
+
+     guard {
+      parallel ([
+        functional_tests:  { build(&quot;raxio_jobs_data_functional_tests&quot;, sha1: sha1, BranchName: branch) }.
+        performance_tests:  { build(&quot;raxio_jobs_data_performance_tests&quot;, sha1: sha1, BranchName: branch) }
+      ])
+     } rescue {
+      build( &quot;raxio_jobs_data_cleanup&quot;, BranchName: branch )
+     }

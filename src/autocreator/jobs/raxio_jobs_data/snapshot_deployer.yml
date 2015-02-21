@@ -1,0 +1,45 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Deploys snapshot artifact to cloud files
+numOfJobsToKeep: 10
+daysToKeep: 7
+buildParams:
+  - paramName: BranchName
+    paramValue: "Temporary branch name in internal repository"
+    paramDesc:  "Temporary branch name in internal repository"
+    paramType: string
+scm:
+  gitURL: "ssh://git@github.com/dimtruck/internal.git"
+  gitBranch: "<%text>${BranchName}</%text>"
+  extensions: 
+    cleanbeforecheckout: True
+shell_build_command: 
+  - build: |
+           <%text>#!/bin/bash
+           . ~/.profile
+           git fetch -a
+           git checkout ${BranchName}
+           git push origin ${BranchName}:master -f</%text>
+  - build: |
+           <%text>#!/bin/bash
+           . ~/.profile
+           rm -rf arbor-master
+           virtualenv arbor-master
+           rm -rf arbor-master/source
+           mkdir -p arbor-master/source
+           cp -R contrib coverage.sh doc etc examples functionaltests HACKING.rst LICENSE MANIFEST.in openstack-common.conf README.rst requirements.txt setup.cfg setup.py solum test-requirements.txt tools tox.ini -t arbor-master/source/
+           . arbor-master/bin/activate
+           pip install -r test-requirements.txt
+           pip install -r requirements.txt
+           pip install .
+           OUTPUT=&quot;$(pip freeze | grep librabbitmq)&quot;
+           if [ -z ${OUTPUT} ]; then echo &quot;librabbitmq not found&quot;; else pip uninstall librabbitmq; fi
+           virtualenv --relocatable arbor-master
+           tar czvf arbor-master.tar.gz arbor-master/
+           deactivate
+           cd ~/
+           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook push-to-files.yml -vvvv</%text>
+rubyProxyObject:
+  pipList: "tox&lt;1.7"
+gatlingPublisher: True  

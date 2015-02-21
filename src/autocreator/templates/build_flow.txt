@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<com.cloudbees.plugins.flow.BuildFlow plugin="build-flow-plugin@0.16">
+  <%include file="actions.txt"/>
+    % if job_description:
+      <description>${job_description}</description>
+    % else:
+      <description>"Jenkins job"</description>
+    % endif
+  <%include file="logRotator.txt"/>
+  <keepDependencies>false</keepDependencies>
+  <%include file="properties.txt"/>
+  <%include file="scm.txt"/>
+  <%include file="node.txt"/>
+  <%include file="builders.txt"/>
+  <%include file="publishers.txt"/>
+  <%include file="buildWrappers.txt"/>
+  <%include file="dsl.txt"/>
+</com.cloudbees.plugins.flow.BuildFlow>

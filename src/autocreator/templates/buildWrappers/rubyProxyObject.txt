@@ -1,0 +1,15 @@
+% if rubyProxyObject:
+<ruby-proxy-object>
+  <ruby-object ruby-class="Jenkins::Tasks::BuildWrapperProxy" pluginid="pyenv">
+    <object ruby-class="PyenvWrapper" pluginid="pyenv">
+      <pyenv__root pluginid="pyenv" ruby-class="String">$HOME/.pyenv</pyenv__root>
+      <pip__list pluginid="pyenv" ruby-class="String">${rubyProxyObject['pipList']}</pip__list>
+      <pyenv__revision pluginid="pyenv" ruby-class="String">master</pyenv__revision>
+      <version pluginid="pyenv" ruby-class="String">2.7.8</version>
+      <ignore__local__version ruby-class="FalseClass" pluginid="pyenv"/>
+      <pyenv__repository pluginid="pyenv" ruby-class="String">https://github.com/yyuu/pyenv.git</pyenv__repository>
+    </object>
+    <pluginid pluginid="pyenv" ruby-class="String">pyenv</pluginid>
+  </ruby-object>
+</ruby-proxy-object>
+% endif

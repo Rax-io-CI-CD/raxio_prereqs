@@ -1,0 +1,103 @@
+<builders>
+% if copyArtifact:
+  <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.27">
+    <project>${copyArtifact['project']}</project>
+    <filter>${copyArtifact['filter']}</filter>
+    <target>${copyArtifact['target']}</target>
+    % if copyArtifact['buildStatusSelector'] == "triggered":
+    <selector class="hudson.plugins.copyartifact.TriggeredBuildSelector">
+      <fallbackToLastSuccessful>${copyArtifact['lastSuccessful']}</fallbackToLastSuccessful>
+    </selector>
+    % elif copyArtifact['buildStatusSelector'] == "status":
+    <selector class="hudson.plugins.copyartifact.StatusBuildSelector">
+      <stable>${copyArtifact['lastStable']}</stable>
+    </selector>
+    % endif
+  </hudson.plugins.copyartifact.CopyArtifact>
+% endif
+
+% if shell_build_command:
+  % for build in shell_build_command:
+  <hudson.tasks.Shell>
+    <command>${build['build']}</command>
+  </hudson.tasks.Shell>
+  % endfor
+% endif
+
+% if envInjectBuilder:
+  <EnvInjectBuilder plugin="envinject@1.90">
+    <info>
+      <propertiesFilePath>${envInjectBuilder}</propertiesFilePath>
+    </info>
+  </EnvInjectBuilder>
+% endif
+
+% if virtualenvBuilder:
+  <jenkins.plugins.shiningpanda.builders.VirtualenvBuilder plugin="shiningpanda@0.21">
+    <pythonName>System-CPython-2.7</pythonName>
+    <home></home>
+    <clear>false</clear>
+    <systemSitePackages>false</systemSitePackages>
+    <nature>shell</nature>
+    <command>${virtualenvBuilder['command']}</command>
+    <ignoreExitCode>false</ignoreExitCode>
+  </jenkins.plugins.shiningpanda.builders.VirtualenvBuilder>
+% endif
+
+% if sonarBuilder:
+<hudson.plugins.sonar.SonarRunnerBuilder plugin="sonar@2.1">
+  <project></project>
+  <properties>${sonarBuilder['properties']}</properties>
+  <javaOpts></javaOpts>
+  <jdk>${sonarBuilder['jdk']}</jdk>
+  <task></task>
+</hudson.plugins.sonar.SonarRunnerBuilder>
+% endif
+
+% if triggerBuilder:
+<hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.25">
+  <configs>
+    <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
+      <configs>
+        <hudson.plugins.parameterizedtrigger.BooleanParameters>
+          <configs>
+            <hudson.plugins.parameterizedtrigger.BooleanParameterConfig>
+              <name>${triggerBuilder['parameter']['name']}</name>
+              <value>${triggerBuilder['parameter']['value']}</value>
+            </hudson.plugins.parameterizedtrigger.BooleanParameterConfig>
+          </configs>
+        </hudson.plugins.parameterizedtrigger.BooleanParameters>
+        <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+          <properties>${triggerBuilder['properties']}</properties>
+        </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+      </configs>
+      <projects>${triggerBuilder['projects']}</projects>
+      <condition>ALWAYS</condition>
+      <triggerWithNoParameters>false</triggerWithNoParameters>
+      <block>
+        <buildStepFailureThreshold>
+          <name>FAILURE</name>
+          <ordinal>2</ordinal>
+          <color>RED</color>
+          <completeBuild>true</completeBuild>
+        </buildStepFailureThreshold>
+        <unstableThreshold>
+          <name>UNSTABLE</name>
+          <ordinal>1</ordinal>
+          <color>YELLOW</color>
+          <completeBuild>true</completeBuild>
+        </unstableThreshold>
+        <failureThreshold>
+          <name>FAILURE</name>
+          <ordinal>2</ordinal>
+          <color>RED</color>
+          <completeBuild>true</completeBuild>
+        </failureThreshold>
+      </block>
+      <buildAllNodesWithLabel>false</buildAllNodesWithLabel>
+    </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
+  </configs>
+</hudson.plugins.parameterizedtrigger.TriggerBuilder>
+% endif
+
+</builders>

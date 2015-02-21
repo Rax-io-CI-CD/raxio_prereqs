@@ -5,10 +5,9 @@ Prerequisites for Raxio 2015
 
 - Jenkins 
 - Sonar
-- Autocreator (STILL TO DO)
+- Autocreator
 - Ansible
-- Chef server (STILL TO DO)
-- Jenkins plugins and jobs (STILL TO DO)
+- Jenkins plugins and jobs (sonar and github pr.  Need to also validate pyenv gets installed)
   - Build Flow
     - Upstream\_master\_pulldown
     - Build\_flow
@@ -33,6 +32,12 @@ Prerequisites for Raxio 2015
     - Performance\_tests
 - Git
 - Ruby (STILL TO DO)
-- Python (STILL TO DO)
+- Python
 - Java
 - Scripts (STILL TO DO)
+- Ansible deployment job
+
+### Manual steps
+
+- Set up src/raxpub with cloud credentials
+- Add access token to Github PR Builder (required as pre-req to workflow 3)

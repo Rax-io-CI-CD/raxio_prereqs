@@ -1,0 +1,115 @@
+% if assignedNode:
+  <assignedNode>${assignedNode}</assignedNode>
+% else:
+  <assignedNode/>
+% endif
+
+% if canRoam:
+<canRoam>${canRoam}</canRoam>
+% else:
+<canRoam>false</canRoam>
+% endif
+
+<disabled>false</disabled>
+
+% if blockOnDownstream:
+  <blockBuildWhenDownstreamBuilding>${blockOnDownstream}</blockBuildWhenDownstreamBuilding>
+% else:
+  <blockBuildWhenDownstreamBuilding>False</blockBuildWhenDownstreamBuilding>
+% endif
+
+% if blockOnUpstream:
+  <blockBuildWhenUpstreamBuilding>${blockOnUpstream}</blockBuildWhenUpstreamBuilding>
+% else:
+  <blockBuildWhenUpstreamBuilding>False</blockBuildWhenUpstreamBuilding>
+% endif
+
+% if jdk:
+  <jdk>${jdk}</jdk>
+% endif
+
+% if triggers:
+  <triggers>
+  % if 'timer' in triggers:
+    <hudson.triggers.TimerTrigger>
+      <spec>${triggers['timer']}</spec>
+    </hudson.triggers.TimerTrigger>
+  % elif 'gerrit' in triggers:
+    <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger plugin="gerrit-trigger@2.12.0">
+      <spec></spec>
+      <gerritProjects>
+        <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.GerritProject>
+          <compareType>${triggers['gerrit']['compareType']}</compareType>
+          <pattern>${triggers['gerrit']['pattern']}</pattern>
+          <branches>
+            <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.Branch>
+              <compareType>${triggers['gerrit']['compareType']}</compareType>
+              <pattern>${triggers['gerrit']['branch_pattern']}</pattern>
+            </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.Branch>
+          </branches>
+        </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.GerritProject>
+      </gerritProjects>
+      <skipVote>
+        <onSuccessful>false</onSuccessful>
+        <onFailed>false</onFailed>
+        <onUnstable>false</onUnstable>
+        <onNotBuilt>false</onNotBuilt>
+      </skipVote>
+      <silentMode>true</silentMode>
+      <notificationLevel></notificationLevel>
+      <escapeQuotes>true</escapeQuotes>
+      <noNameAndEmailParameters>false</noNameAndEmailParameters>
+      <dependencyJobsNames></dependencyJobsNames>
+      <readableMessage>false</readableMessage>
+      <buildStartMessage></buildStartMessage>
+      <buildFailureMessage></buildFailureMessage>
+      <buildSuccessfulMessage></buildSuccessfulMessage>
+      <buildUnstableMessage></buildUnstableMessage>
+      <buildNotBuiltMessage></buildNotBuiltMessage>
+      <buildUnsuccessfulFilepath></buildUnsuccessfulFilepath>
+      <customUrl></customUrl>
+      <serverName>Openstack</serverName>
+      <triggerOnEvents>
+        <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.PluginPatchsetCreatedEvent>
+          <excludeDrafts>false</excludeDrafts>
+          <excludeTrivialRebase>false</excludeTrivialRebase>
+          <excludeNoCodeChange>false</excludeNoCodeChange>
+        </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.PluginPatchsetCreatedEvent>
+        <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.PluginCommentAddedContainsEvent>
+          <commentAddedCommentContains>${triggers['gerrit']['commentAddedCommentContains']}</commentAddedCommentContains>
+        </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.events.PluginCommentAddedContainsEvent>
+      </triggerOnEvents>
+      <allowTriggeringUnreviewedPatches>false</allowTriggeringUnreviewedPatches>
+      <dynamicTriggerConfiguration>false</dynamicTriggerConfiguration>
+      <triggerConfigURL></triggerConfigURL>
+      <triggerInformationAction/>
+    </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger>
+  % elif 'github_pr' in triggers:
+    <org.jenkinsci.plugins.ghprb.GhprbTrigger plugin="ghprb@1.12">
+      <spec>${triggers['github_pr']['spec']}</spec>
+      <adminlist>${triggers['github_pr']['adminlist']}</adminlist>
+      <orgslist>${triggers['github_pr']['orglist']}</orgslist>
+      <cron>${triggers['github_pr']['cron']}</cron>
+      <triggerPhrase>${triggers['github_pr']['triggerPhrase']}</triggerPhrase>
+      <onlyTriggerPhrase>false</onlyTriggerPhrase>
+      <useGitHubHooks>${triggers['github_pr']['useGitHubHooks']}</useGitHubHooks>
+      <permitAll>false</permitAll>
+      <whitelist>${triggers['github_pr']['whitelist']}</whitelist>
+      <autoCloseFailedPullRequests>false</autoCloseFailedPullRequests>
+      <whiteListTargetBranches>
+        <org.jenkinsci.plugins.ghprb.GhprbBranch>
+          <branch></branch>
+        </org.jenkinsci.plugins.ghprb.GhprbBranch>
+      </whiteListTargetBranches>
+    </org.jenkinsci.plugins.ghprb.GhprbTrigger>  
+  % endif
+  </triggers>
+% else:
+<triggers/>
+% endif
+
+% if concurrentBuild:
+  <concurrentBuild>${concurrentBuild}</concurrentBuild>
+% else:
+  <concurrentBuild>False</concurrentBuild>
+% endif

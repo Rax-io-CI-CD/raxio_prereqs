@@ -1,0 +1,49 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Orchestrates the entire process of validating upstream patch with downstream patches
+artifactNumToKeep: 10
+numOfJobsToKeep: 10
+daysToKeep: 10
+buildParams:
+  - paramName: Milestone
+    paramValue: "Upstream release milestone (eg. &quot;j1&quot; for milestone juno 1). (Openstack)"
+    paramDesc:  "Upstream release milestone (eg. &quot;j1&quot; for milestone juno 1). (Openstack)"
+    paramType: string
+  - paramName: OpenstackVersion
+    paramValue: "Openstack or Stackforge version (eg. &quot;2014&quot;). (Openstack)"
+    paramDesc:  "Openstack or Stackforge version (eg. &quot;2014&quot;). (Openstack)"
+    paramType: string
+  - paramName: UpstreamBranch
+    paramValue: "Private repository upstream branch"
+    paramDesc:  "Private repository upstream branch"
+    paramType: string  
+  - paramName: PrivateRepo
+    paramValue: "Private repository (Company specific)"
+    paramDesc:  Private repository (Company specific)
+    paramType: string
+  - paramName: MergeRepo
+    paramValue: "Repository that contains a list of downstream patches"
+    paramDesc:  "Repository that contains a list of downstream patches"
+    paramType: string
+  - paramName: MergeRepoBranch
+    paramValue: "Repository branch that contains a list of downstream patches"
+    paramDesc:  "Repository branch that contains a list of downstream patches"
+    paramType: string
+scm:
+  gitURL: "ssh://git@github.com/dimtruck/merge-build"
+  gitBranch: "*/master"
+dsl: |
+     private_build = build(params, &quot;raxio_jobs_data_build&quot;)
+     branch = private_build.environment.get(&quot;BUILD_NAME&quot;)
+     sha1 = private_build.environment.get(&quot;SHA1&quot;)
+     build(&quot;raxio_jobs_data_unit_tests&quot;, BranchName: branch)
+
+     guard {
+      parallel ([
+        functional_tests:  { build(&quot;raxio_jobs_data_functional_tests&quot;, sha1: sha1, BranchName: branch) },
+        performance_tests:  { build(&quot;raxio_jobs_data_performance_tests&quot;, sha1: sha1, BranchName: branch) }
+      ])
+     } rescue {
+      build( &quot;raxio_jobs_data_cleanup&quot;, BranchName: branch )
+     }

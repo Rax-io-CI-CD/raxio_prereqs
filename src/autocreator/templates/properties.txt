@@ -1,0 +1,36 @@
+<properties>
+  % if buildParams:
+  <hudson.model.ParametersDefinitionProperty>
+    <parameterDefinitions>
+      % for buildParam in buildParams:
+        % if buildParam['paramType'] == 'string':
+      <hudson.model.StringParameterDefinition>
+        <name>${buildParam['paramName']}</name>
+        <description>${buildParam['paramDesc']}</description>
+        <defaultValue>${buildParam['paramValue']}</defaultValue>
+      </hudson.model.StringParameterDefinition>
+        % elif buildParam['paramType'] == 'boolean':
+      <hudson.model.StringParameterDefinition>
+        <name>SolumRepoBranch</name>
+        <description>The branch to build from.</description>
+        <defaultValue>master</defaultValue>
+      </hudson.model.StringParameterDefinition>
+        % endif
+      % endfor
+    </parameterDefinitions>
+  </hudson.model.ParametersDefinitionProperty>
+  % endif
+  % if envInjectJobProperty:
+  <EnvInjectJobProperty plugin="envinject@1.90">
+    <info>
+      <scriptContent>${envInjectJobProperty['content']}</scriptContent>
+      <loadFilesFromMaster>false</loadFilesFromMaster>
+    </info>
+    <on>true</on>
+    <keepJenkinsSystemVariables>true</keepJenkinsSystemVariables>
+    <keepBuildVariables>true</keepBuildVariables>
+    <overrideBuildParameters>false</overrideBuildParameters>
+    <contributors/>
+  </EnvInjectJobProperty>
+  % endif
+</properties>

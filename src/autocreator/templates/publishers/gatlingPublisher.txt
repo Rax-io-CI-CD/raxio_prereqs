@@ -1,0 +1,5 @@
+% if gatlingPublisher:
+<io.gatling.jenkins.GatlingPublisher plugin="gatling@1.1.0">
+      <enabled>true</enabled>
+</io.gatling.jenkins.GatlingPublisher>
+% endif

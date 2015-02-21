@@ -1,0 +1,9 @@
+% if artifactArchiver:
+  <hudson.tasks.ArtifactArchiver>
+    <artifacts>${artifactArchiver['artifacts']}</artifacts>
+    <latestOnly>${artifactArchiver['latestOnly']}</latestOnly>
+	<allowEmptyArchive>${artifactArchiver['allowEmptyArchive']}</allowEmptyArchive>
+	<onlyIfSuccessful>${artifactArchiver['onlyIfSuccessful']}</onlyIfSuccessful>
+	<defaultExcludes>${artifactArchiver['defaultExcludes']}</defaultExcludes>
+  </hudson.tasks.ArtifactArchiver>
+% endif

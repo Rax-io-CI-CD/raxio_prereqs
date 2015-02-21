@@ -1,0 +1,11 @@
+% if buildTrigger:
+<hudson.tasks.BuildTrigger>
+  <childProjects>${buildTrigger['projects']}</childProjects>
+  <threshold>
+    <name>${buildTrigger['triggerCondition']}</name>
+    <ordinal>0</ordinal>
+    <color>BLUE</color>
+    <completeBuild>true</completeBuild>
+  </threshold>
+</hudson.tasks.BuildTrigger>
+% endif

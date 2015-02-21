@@ -1,0 +1,88 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Pulls down public code (OpenStack master) to upstream branch of private repository.
+artifactNumToKeep: 10
+buildParams:
+  - paramName: PublicRepo
+    paramValue: "Public repository (Openstack)"
+    paramDesc:  Public repository (Openstack)
+    paramType: string
+  - paramName: PublicRepoBranch
+    paramValue: "Public repository branch (Openstack/master)"
+    paramDesc:  "Public repository branch (Openstack/master)"
+    paramType: string  
+  - paramName: PrivateRepo
+    paramValue: "Private repository (Company specific)"
+    paramDesc:  Private repository (Company specific)
+    paramType: string
+  - paramName: PrivateRepoBranch
+    paramValue: "Private repository branch to push to (Company specific)"
+    paramDesc:  "Private repository branch to push to (Company specific)"
+    paramType: string
+scm:
+  gitURL: "ssh://git@github.com/dimtruck/merge-build"
+  gitBranch: "*/master"
+triggers: 
+  timer: "@midnight"
+shell_build_command: 
+  - build: |
+           <%text>#!/bin/sh
+           whoami
+           BUILD_VARS=${WORKSPACE}/build_vars
+           if [ -e &quot;${BUILD_VARS}&quot; ]; then
+              rm -rf ${BUILD_VARS}
+           fi
+
+           bool_args=&quot;$bool_args -d ${BUILD_NUMBER}&quot;
+
+           echo &quot;BOOL ARGS: $bool_args&quot;
+
+           rm -rf .venv
+           if [ ! -e .venv ]; then
+              virtualenv --system-site-packages .venv
+           fi
+           . ./.venv/bin/activate
+
+           pip install -r requirements.txt
+           pip install launchpadlib --allow-external lazr.authentication --allow-unverified lazr.authentication
+
+           if [ -d public_repo ]; then
+            rm -rf public_repo
+           fi
+
+           git clone $PublicRepo -b $PublicRepoBranch public_repo
+
+           cd public_repo
+
+           [ &quot;`git remote | grep upstream`&quot; == &quot;upstream&quot; ] || git remote add upstream $PublicRepo
+           PublicRepo=&quot;public_repo&quot;
+
+           [ &quot;`git remote | grep internal_repo`&quot; == &quot;internal_repo&quot; ] ||  git remote add internal_repo $PrivateRepo
+           git fetch internal_repo
+
+           bool_args=&quot;$bool_args -e internal_repo/master&quot;
+
+           cd ..
+
+           ~/test.sh -h $PublicRepoBranch -r $PublicRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/jenkins_id_rsa
+
+           BUILD_NAME=`cat ${BUILD_VARS}`
+           echo &quot;BUILD_NAME=${BUILD_NAME}&quot; &gt; ${BUILD_VARS}
+
+           DATE=`/bin/date +%Y%m%d`
+           echo &quot;PACKAGE_VERSION=${StackforgeVersion}.${Milestone}-${DATE}-${BUILD_NUMBER}&quot; &gt;&gt; ${BUILD_VARS}
+
+           deactivate</%text>
+envInjectBuilder: "build_vars"                     
+aggregatedTestResults:
+  failedBuilds: "true"
+artifactArchiver:
+  artifacts: patches/downstream,public_repo/changelog
+  latestOnly: False
+  allowEmptyArchive: False
+  onlyIfSuccessful: False
+  defaultExcludes: True
+buildTrigger:
+  projects: "raxio_jobs_data_master_build_flow"
+  triggerCondition: SUCCESS

@@ -1,0 +1,13 @@
+numOfJobsToKeep: 10
+canRoam: true
+ircBot:
+  targets:
+    channel: "#raxio2015"
+    notificationOnly: "True"
+  strategy: FAILURE_AND_FIXED
+  notifyOnBuildStart: "False"
+  notifySuspects: "False"
+  notifyCulprits: "False"
+  notifyFixers: "False"
+  notifyUpstreamCommitters: "False"
+  matrixMultiplier: ONLY_CONFIGURATIONS

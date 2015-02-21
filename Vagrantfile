@@ -35,6 +35,7 @@ Vagrant.configure("2") do |config|
     end
     raxiodemo.vm.provision :shell, path: "bootstrap.sh"
     raxiodemo.vm.synced_folder "src/ansible", "/usr/ansible/"
+    raxiodemo.vm.synced_folder "src/autocreator", "/usr/autocreator/"
     raxiodemo.vm.provision "file", source: "src/ansible.cfg", destination: "/home/vagrant/.ansible.cfg"
     raxiodemo.vm.provision "file", source: "src/profile", destination: "/home/vagrant/.profile"
     raxiodemo.vm.provision "file", source: "src/raxpub", destination: "/home/vagrant/.raxpub"

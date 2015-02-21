@@ -1,0 +1,27 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Unit tests and code analysis
+numOfJobsToKeep: 10
+daysToKeep: 7
+buildParams:
+  - paramName: BranchName
+    paramValue: "Temporary branch name in internal repository"
+    paramDesc:  "Temporary branch name in internal repository"
+    paramType: string
+scm:
+  gitURL: "ssh://git@github.com/dimtruck/internal.git"
+  gitBranch: "<%text>${BranchName}</%text>"
+  extensions: 
+    cleanbeforecheckout: True
+blockOnUpstream: True    
+virtualenvBuilder:
+  command: |
+           pip install junitxml
+           tox -e py27
+           testr last --subunit | subunit2junitxml &gt; results.xml
+junitArchiver:
+  testResults: results.xml
+  keepLongStdio: False
+rubyProxyObject:
+  pipList: "tox&lt;1.7"

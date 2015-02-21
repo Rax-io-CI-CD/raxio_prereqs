@@ -1,0 +1,62 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Triggered when an upstream patch is pushed upstream
+artifactNumToKeep: 10
+buildParams:
+  - paramName: PublicRepo
+    paramValue: "ssh://USER@GERRIT_URL:29418/ORGANIZATION/REPOSITORY"
+    paramDesc:  Public repository (Openstack)
+    paramType: string
+  - paramName: PublicRepoBranch
+    paramValue: "Public repository branch (Openstack/master)"
+    paramDesc:  "Public repository branch (Openstack/master)"
+    paramType: string  
+  - paramName: PrivateRepo
+    paramValue: "Private repository (Company specific)"
+    paramDesc:  Private repository (Company specific)
+    paramType: string
+  - paramName: PrivateRepoBranch
+    paramValue: "Private repository branch to push to (Company specific)"
+    paramDesc:  "Private repository branch to push to (Company specific)"
+    paramType: string
+envInjectJobProperty:
+  content: |
+           echo &quot;GERRIT_REFSPEC:$GERRIT_REFSPEC&quot; 
+           echo &quot;GERRIT_BRANCH:$GERRIT_BRANCH&quot;
+scm:
+  gitURL: "ssh://raxpaasci@review.openstack.org:29418/stackforge/solum"
+  gitBranch: "$GERRIT_REFSPEC"
+  refSpec: "refs/changes/*:refs/changes/*"
+  extensions:
+    buildChooserSetting: True
+triggers:
+  gerrit:
+    compareType: PLAIN
+    pattern: "stackforge/solum"
+    branch_pattern: master
+    commentAddedCommentContains: "recheck.*"
+shell_build_command: 
+  - build: |
+           <%text>#!/bin/bash
+           # Set up a build branch for Arbor-Build to use
+           gerrit_internal_branch=&quot;${GERRIT_REFSPEC//\//-}&quot;  
+
+           git remote add internal_repo ${PublicRepo}|| echo &quot;PublicRepo set&quot;
+           git fetch internal_repo -a
+           git branch -D internal_repo/$gerrit_internal_branch || echo &quot;branch:$gerrit_internal_branch does not exist... creating&quot;
+           git checkout -b $gerrit_internal_branch
+           git push PublicRepo $gerrit_internal_branch -f
+           echo &quot;gerrit_internal_branch=$gerrit_internal_branch&quot; &gt;&gt; gerrit_internal_branch.txt</%text>
+envInjectBuilder: "gerrit_internal_branch.txt"                     
+triggerBuilder:
+  parameter:
+    name: "GerritDeployment"
+    value: True
+  properties: |
+              <%text>deploy=true
+              DontPush=false
+              PublicRepo=${PublicRepo}
+              UpstreamBranch=${gerrit_internal_branch}
+              PrivateRepoBranch=${PrivateRepoBranch}</%text>
+  projects: raxio_jobs_data_upstream_patch_build_flow

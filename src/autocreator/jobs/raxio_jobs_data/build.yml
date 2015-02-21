@@ -1,0 +1,112 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Merge internal patches with upstream branch on internal repository
+numOfJobsToKeep: 10
+daysToKeep: 7
+buildParams:
+  - paramName: Milestone
+    paramValue: "Upstream release milestone (eg. &quot;j1&quot; for milestone juno 1). (Openstack)"
+    paramDesc:  "Upstream release milestone (eg. &quot;j1&quot; for milestone juno 1). (Openstack)"
+    paramType: string
+  - paramName: OpenstackVersion
+    paramValue: "Openstack or Stackforge version (eg. &quot;2014&quot;). (Openstack)"
+    paramDesc:  "Openstack or Stackforge version (eg. &quot;2014&quot;). (Openstack)"
+    paramType: string
+  - paramName: UpstreamBranch
+    paramValue: "Private repository upstream branch"
+    paramDesc:  "Private repository upstream branch"
+    paramType: string  
+  - paramName: PrivateRepo
+    paramValue: "Private repository (Company specific)"
+    paramDesc:  Private repository (Company specific)
+    paramType: string
+  - paramName: MergeRepo
+    paramValue: "Repository that contains a list of downstream patches"
+    paramDesc:  "Repository that contains a list of downstream patches"
+    paramType: string
+  - paramName: MergeRepoBranch
+    paramValue: "Repository branch that contains a list of downstream patches"
+    paramDesc:  "Repository branch that contains a list of downstream patches"
+    paramType: string
+scm:
+  gitURL: "<%text>${MergeRepo}</%text>"
+  gitBranch: "<%text>${MergeRepoBranch}</%text>"
+  extensions: 
+    branch: "<%text>${MergeRepoBranch}</%text>"
+shell_build_command: 
+  - build: |
+           <%text>
+           #!/bin/bash -ex
+           whoami
+           BUILD_VARS=${WORKSPACE}/build_vars
+
+           if [ -e &quot;${BUILD_VARS}&quot; ]; then
+             rm -rf ${BUILD_VARS}
+           fi
+
+           #downstream patches
+           bool_args=&quot;$bool_args -d ${BUILD_NUMBER} -p ${WORKSPACE}/patches/downstream&quot;
+
+           echo &quot;BOOL ARGS: $bool_args&quot;
+
+           # Setup venv for build project
+           if [ ! -e .venv ]; then
+             virtualenv --system-site-packages .venv
+           fi
+           . ./.venv/bin/activate
+
+           # Install build requirements
+           pip install -r requirements.txt
+           pip install launchpadlib --allow-external lazr.authentication --allow-unverified lazr.authentication
+           pip install tox
+
+           #setup the public_repo for the build script
+           if [ -d public_repo ]; then
+             rm -rf public_repo
+           fi
+           git clone $PrivateRepo -b $UpstreamBranch public_repo
+
+           cd public_repo
+
+           #setup the upstream remote for the build script
+           [ &quot;`git remote | grep upstream`&quot; == &quot;upstream&quot; ] || git remote add upstream $PrivateRepo
+           PrivateRepo=&quot;public_repo&quot;
+
+           #setup the private remote for the build script
+           [ &quot;`git remote | grep private_repo`&quot; == &quot;private_repo&quot; ] ||  git remote add private_repo $PrivateRepo
+           git fetch private_repo
+
+           #get the previous built version for the changelog
+           bool_args=&quot;$bool_args -e private_repo/master&quot;
+
+           cd ..
+
+           #git config --global user.email &quot;paas@lists.rackspace.com&quot;
+           #git config --global user.name &quot;paas-ci&quot;
+
+           #the build script writes the branch/tag name it creates to an optional file
+           ./build-arbor -h $UpstreamBranch -m $Milestone -r $PrivateRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/jenkins_rsa
+
+           #take the branch name and turn it into the expected properties format
+           BUILD_NAME=`cat ${BUILD_VARS}`
+           echo &quot;BUILD_NAME=${BUILD_NAME}&quot; &gt; ${BUILD_VARS}
+
+           #Stackforge Version
+           DATE=`/bin/date +%Y%m%d`
+           echo &quot;PACKAGE_VERSION=${StackforgeVersion}.${Milestone}-${DATE}-${BUILD_NUMBER}&quot; &gt;&gt; ${BUILD_VARS}
+
+           cd public_repo
+           git fetch
+           SHA1=`git rev-parse origin/${BUILD_NAME}`
+           cd ..
+           echo &quot;SHA1=${SHA1}&quot; &gt;&gt; ${BUILD_VARS}</%text>
+envInjectBuilder: "build_vars"                     
+aggregatedTestResults:
+  failedBuilds: "true"
+artifactArchiver:
+  artifacts: patches/downstream,public_repo/changelog
+  latestOnly: False
+  allowEmptyArchive: False
+  onlyIfSuccessful: False
+  defaultExcludes: True
