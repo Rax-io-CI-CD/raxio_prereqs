@@ -5,23 +5,23 @@ job_description: Pulls down public code (OpenStack master) to upstream branch of
 artifactNumToKeep: 10
 buildParams:
   - paramName: PublicRepo
-    paramValue: "Public repository (Openstack)"
+    paramValue: "git@github.com:Rax-io-CI-CD/OpenStackProject.git"
     paramDesc:  Public repository (Openstack)
     paramType: string
   - paramName: PublicRepoBranch
-    paramValue: "Public repository branch (Openstack/master)"
+    paramValue: "master"
     paramDesc:  "Public repository branch (Openstack/master)"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "Private repository (Company specific)"
+    paramValue: "THIS IS WHERE YOU ENTER YOUR CLONED REPO"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: PrivateRepoBranch
-    paramValue: "Private repository branch to push to (Company specific)"
+    paramValue: "upstream"
     paramDesc:  "Private repository branch to push to (Company specific)"
     paramType: string
 scm:
-  gitURL: "ssh://git@github.com/dimtruck/merge-build"
+  gitURL: "ssh://git@github.com:Rax-io-CI-CD/Rax-io-build.git"
   gitBranch: "*/master"
 triggers: 
   timer: "@midnight"

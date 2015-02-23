@@ -1,0 +1,14 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Orchestrates the blue node deployment and test
+artifactNumToKeep: 10
+numOfJobsToKeep: 10
+daysToKeep: 10
+dsl: |
+     build(&quot;raxio_jobs_data_release_deployer&quot;)
+     guard {
+      build(&quot;raxio_jobs_data_blue_nodes_deployer&quot;)
+     } rescue {
+      build( &quot;raxio_jobs_data_blue_nodes_deployer_rescue&quot;)
+     }

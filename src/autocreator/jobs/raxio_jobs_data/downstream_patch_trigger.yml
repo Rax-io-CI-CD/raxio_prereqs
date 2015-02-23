@@ -4,7 +4,7 @@
 job_description: Triggered when a downstream patch is pushed internally (pull request)
 artifactNumToKeep: 10
 scm:
-  gitURL: "private_repository"
+  gitURL: "git@github.com:dimtruck/OpenStackProject.git"
   gitBranch: "<%text>${sha1}</%text>"
   refSpec: "+refs/pull/*:refs/remotes/origin/pr/*"
   extensions:

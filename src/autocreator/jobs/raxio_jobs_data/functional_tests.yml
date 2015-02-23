@@ -10,9 +10,8 @@ buildParams:
     paramDesc:  "Temporary branch name in internal repository"
     paramType: string
 scm:
-  gitURL: "ssh://git@github.com/dimtruck/ansible-configuration.git"
+  gitURL: "ssh://git@github.com:dimtruck/raxio_deployment.git"
   gitBranch: "*/master"
-  refSpec: "+refs/pull/*:refs/remotes/origin/pr/*"
   extensions: 
     cleanbeforecheckout: True
 shell_build_command: 

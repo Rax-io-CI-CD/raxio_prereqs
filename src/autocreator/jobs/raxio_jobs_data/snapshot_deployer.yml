@@ -10,7 +10,7 @@ buildParams:
     paramDesc:  "Temporary branch name in internal repository"
     paramType: string
 scm:
-  gitURL: "ssh://git@github.com/dimtruck/internal.git"
+  gitURL: "ssh://git@github.com:dimtruck/OpenStackProject.git"
   gitBranch: "<%text>${BranchName}</%text>"
   extensions: 
     cleanbeforecheckout: True
@@ -42,4 +42,3 @@ shell_build_command:
            ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook push-to-files.yml -vvvv</%text>
 rubyProxyObject:
   pipList: "tox&lt;1.7"
-gatlingPublisher: True  

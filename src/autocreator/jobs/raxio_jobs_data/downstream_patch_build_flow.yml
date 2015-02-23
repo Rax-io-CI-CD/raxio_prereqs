@@ -22,7 +22,7 @@ dsl: |
 
      guard {
       parallel ([
-        functional_tests:  { build(&quot;raxio_jobs_data_functional_tests&quot;, sha1: sha1, BranchName: branch) }.
+        functional_tests:  { build(&quot;raxio_jobs_data_functional_tests&quot;, sha1: sha1, BranchName: branch) },
         performance_tests:  { build(&quot;raxio_jobs_data_performance_tests&quot;, sha1: sha1, BranchName: branch) }
       ])
      } rescue {

@@ -40,6 +40,8 @@ Vagrant.configure("2") do |config|
     raxiodemo.vm.provision "file", source: "src/profile", destination: "/home/vagrant/.profile"
     raxiodemo.vm.provision "file", source: "src/raxpub", destination: "/home/vagrant/.raxpub"
     raxiodemo.vm.provision "file", source: "src/ansible_hosts", destination: "/home/vagrant/ansible_hosts"
+    raxiodemo.vm.provision :shell, inline: "cd /usr/autocreator && sudo pip install -rrequirements.txt"
+    raxiodemo.vm.provision :shell, inline: "cd /usr/autocreator && sudo ./autocreator.py -d jobs -job raxio_jobs_data -url 'localhost:8080' -http"
   end
 
 end

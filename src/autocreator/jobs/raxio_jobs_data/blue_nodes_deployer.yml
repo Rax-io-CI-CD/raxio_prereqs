@@ -1,0 +1,21 @@
+<%include file="trigger_defaults.yml"/>
+<%include file="default.yml"/>
+
+job_description: Deploy to blue nodes
+artifactNumToKeep: 10
+scm:
+  gitURL: "ssh://git@github.com:dimtruck/raxio_deployment.git"
+  gitBranch: "*/master"
+  extensions: 
+    cleanbeforecheckout: True
+shell_build_command: 
+  - build: |
+           <%text>#!/bin/bash
+           . ~/.profile
+           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/production/ --tags &quot;blue-nodes,deploy,test-b,clean-up&quot; -vvvv --private-key ~/.ssh/id_rsa --extra-vars &quot;group_environ=production&quot;</%text>
+buildTrigger:
+  projects: "raxio_jobs_data_green_nodes_deployer"
+  triggerCondition: SUCCESS
+junitArchiver:
+  testResults: results.xml
+  keepLongStdio: False

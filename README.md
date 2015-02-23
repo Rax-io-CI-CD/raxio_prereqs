@@ -7,7 +7,8 @@ Prerequisites for Raxio 2015
 - Sonar
 - Autocreator
 - Ansible
-- Jenkins plugins and jobs (sonar and github pr.  Need to also validate pyenv gets installed)
+- Gerrit (http://raxio2015-gerrit.dimitryushakov.com:8080) - need to create a proxy for ssh tunneling - make sure others have bastions.  Add .ssh/config setting to make sure
+- Jenkins plugins and jobs (update all projects with real projects)
   - Build Flow
     - Upstream\_master\_pulldown
     - Build\_flow
@@ -31,13 +32,13 @@ Prerequisites for Raxio 2015
     - Functional\_tests
     - Performance\_tests
 - Git
-- Ruby (STILL TO DO)
 - Python
 - Java
-- Scripts (STILL TO DO)
+- Scripts (TODO)
 - Ansible deployment job
 
 ### Manual steps
 
 - Set up src/raxpub with cloud credentials
 - Add access token to Github PR Builder (required as pre-req to workflow 3)
+- Add rax-demo-[your name] user to upstream jobs

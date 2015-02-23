@@ -5,7 +5,7 @@ job_description: Triggered when an upstream patch is pushed upstream
 artifactNumToKeep: 10
 buildParams:
   - paramName: PublicRepo
-    paramValue: "ssh://USER@GERRIT_URL:29418/ORGANIZATION/REPOSITORY"
+    paramValue: "ssh://git@github.com:Rax-io-CI-CD/OpenStackProject.git"
     paramDesc:  Public repository (Openstack)
     paramType: string
   - paramName: PublicRepoBranch
@@ -13,7 +13,7 @@ buildParams:
     paramDesc:  "Public repository branch (Openstack/master)"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "Private repository (Company specific)"
+    paramValue: "ENTER YOUR CLONED REPO HERE"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: PrivateRepoBranch
@@ -25,7 +25,7 @@ envInjectJobProperty:
            echo &quot;GERRIT_REFSPEC:$GERRIT_REFSPEC&quot; 
            echo &quot;GERRIT_BRANCH:$GERRIT_BRANCH&quot;
 scm:
-  gitURL: "ssh://raxpaasci@review.openstack.org:29418/stackforge/solum"
+  gitURL: "ssh://rax-demo@raxio2015-gerrit.dimitryushakov.com:29418/raxio-cd-demo"
   gitBranch: "$GERRIT_REFSPEC"
   refSpec: "refs/changes/*:refs/changes/*"
   extensions:
@@ -33,7 +33,7 @@ scm:
 triggers:
   gerrit:
     compareType: PLAIN
-    pattern: "stackforge/solum"
+    pattern: "raxio-cd-demo"
     branch_pattern: master
     commentAddedCommentContains: "recheck.*"
 shell_build_command: 
