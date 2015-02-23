@@ -5,7 +5,7 @@ job_description: Pulls down public code (OpenStack master) to upstream branch of
 artifactNumToKeep: 10
 buildParams:
   - paramName: PublicRepo
-    paramValue: "git@github.com:Rax-io-CI-CD/OpenStackProject.git"
+    paramValue: "https://github.com/Rax-io-CI-CD/OpenStackProject.git"
     paramDesc:  Public repository (Openstack)
     paramType: string
   - paramName: PublicRepoBranch
@@ -21,7 +21,7 @@ buildParams:
     paramDesc:  "Private repository branch to push to (Company specific)"
     paramType: string
 scm:
-  gitURL: "ssh://git@github.com:Rax-io-CI-CD/Rax-io-build.git"
+  gitURL: "https://github.com/Rax-io-CI-CD/Rax-io-build.git"
   gitBranch: "*/master"
 triggers: 
   timer: "@midnight"
@@ -65,24 +65,11 @@ shell_build_command:
 
            cd ..
 
-           ~/test.sh -h $PublicRepoBranch -r $PublicRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/jenkins_id_rsa
-
-           BUILD_NAME=`cat ${BUILD_VARS}`
-           echo &quot;BUILD_NAME=${BUILD_NAME}&quot; &gt; ${BUILD_VARS}
-
-           DATE=`/bin/date +%Y%m%d`
-           echo &quot;PACKAGE_VERSION=${StackforgeVersion}.${Milestone}-${DATE}-${BUILD_NUMBER}&quot; &gt;&gt; ${BUILD_VARS}
+           ~/public_upstream_merge.sh.sh -h $PublicRepoBranch -r $PublicRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/id_rsa
 
            deactivate</%text>
-envInjectBuilder: "build_vars"                     
 aggregatedTestResults:
   failedBuilds: "true"
-artifactArchiver:
-  artifacts: patches/downstream,public_repo/changelog
-  latestOnly: False
-  allowEmptyArchive: False
-  onlyIfSuccessful: False
-  defaultExcludes: True
 buildTrigger:
   projects: "raxio_jobs_data_master_build_flow"
   triggerCondition: SUCCESS

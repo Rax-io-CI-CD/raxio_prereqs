@@ -10,9 +10,9 @@ scm:
     cleanbeforecheckout: True
 shell_build_command: 
   - build: |
-           <%text>#!/bin/bash
+           <%text><%text>#!/bin/bash
            . ~/.profile
-           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook ~/solum-ansible/spin_up_solum.yml -i ~/solum-ansible/inventory/staging/ --tags &quot;new-nodes,new-b-nodes,setup_chef,test-live,clean-up&quot; -vvvv --private-key ~/.ssh/id_rsa --extra-vars &quot;domain=rs-paas.com b_subdomain=dfw-stage-api.labs.rs-paas.com group_environ=staging&quot;</%text>
+           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/production/ --tags &quot;green-nodes,blue-nodes,deploy,test-live,clean-up&quot; -vvvv --private-key ~/.ssh/id_rsa --extra-vars &quot;group_environ=production&quot;</%text></%text>
 junitArchiver:
   testResults: results.xml
   keepLongStdio: False

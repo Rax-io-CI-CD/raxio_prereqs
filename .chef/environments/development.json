@@ -13,6 +13,9 @@
     },
     "java": {
       "jdk_version": "7"
+    },
+    "apt": {
+      "compile_time_update": true
     }
   }
 }
