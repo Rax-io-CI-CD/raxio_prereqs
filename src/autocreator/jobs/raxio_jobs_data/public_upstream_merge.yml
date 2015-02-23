@@ -13,7 +13,7 @@ buildParams:
     paramDesc:  "Public repository branch (Openstack/master)"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "THIS IS WHERE YOU ENTER YOUR CLONED REPO"
+    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: PrivateRepoBranch
