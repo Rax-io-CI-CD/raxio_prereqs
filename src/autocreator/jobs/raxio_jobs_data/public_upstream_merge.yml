@@ -13,7 +13,7 @@ buildParams:
     paramDesc:  "Public repository branch (Openstack/master)"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
+    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: PrivateRepoBranch
@@ -64,8 +64,8 @@ shell_build_command:
            bool_args=&quot;$bool_args -e internal_repo/master&quot;
 
            cd ..
-
-           ~/public_upstream_merge.sh.sh -h $PublicRepoBranch -r $PublicRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/id_rsa
+           chmod u+x ~/public_upstream_merge.sh
+           ~/public_upstream_merge.sh -h $PublicRepoBranch -r $PublicRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/id_rsa
 
            deactivate</%text>
 aggregatedTestResults:

@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-# This script requires a "rackerlabs" remote that points to
+# This script requires a "internal_repo" remote that points to
 # git@github.com:rackerlabs/arbor.git and an "upstream" remote that
 # points to git://github.com/stackforge/solum.git
 
@@ -127,7 +127,7 @@ fi
 
 # Create a branch for the release type
 if [[ $push -eq 1 ]]; then
-    git push -f rackerlabs builds/$branch:refs/heads/$branch
+    git push -f internal_repo builds/$branch:refs/heads/$branch
 fi
 if [[ $out_file ]]; then
     echo $branch > $out_file

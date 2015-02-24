@@ -65,17 +65,17 @@ shell_build_command:
            if [ -d public_repo ]; then
              rm -rf public_repo
            fi
-           git clone $PublicRepo -b $UpstreamBranch public_repo
+           git clone $PrivateRepo -b $UpstreamBranch public_repo
 
            cd public_repo
 
            #setup the upstream remote for the build script
            [ &quot;`git remote | grep upstream`&quot; == &quot;upstream&quot; ] || git remote add upstream $PrivateRepo
-           PrivateRepo=&quot;public_repo&quot;
 
            #setup the private remote for the build script
            [ &quot;`git remote | grep private_repo`&quot; == &quot;private_repo&quot; ] ||  git remote add private_repo $PrivateRepo
            git fetch private_repo
+           PrivateRepo=&quot;public_repo&quot;
 
            #get the previous built version for the changelog
            bool_args=&quot;$bool_args -e private_repo/master&quot;
@@ -86,7 +86,8 @@ shell_build_command:
            #git config --global user.name &quot;paas-ci&quot;
 
            #the build script writes the branch/tag name it creates to an optional file
-           ./build-arbor -h $UpstreamBranch -m $Milestone -r $PrivateRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/jenkins_rsa
+           chmod u+x build-raxio
+           ./build-raxio -h $UpstreamBranch -m $Milestone -r $PrivateRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/jenkins_rsa
 
            #take the branch name and turn it into the expected properties format
            BUILD_NAME=`cat ${BUILD_VARS}`
