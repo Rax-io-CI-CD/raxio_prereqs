@@ -31,7 +31,7 @@ buildParams:
     paramDesc:  "Repository branch that contains a list of downstream patches"
     paramType: string
 scm:
-  gitURL: "ssh://git@github.com:Rax-io-CI-CD/Rax-io-build.git"
+  gitURL: "ssh://git@github.com/Rax-io-CI-CD/Rax-io-build.git"
   gitBranch: "*/master"
 dsl: |
      private_build = build(params, &quot;raxio_jobs_data_build&quot;)

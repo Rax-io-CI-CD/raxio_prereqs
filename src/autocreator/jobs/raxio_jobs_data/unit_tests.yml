@@ -10,16 +10,18 @@ buildParams:
     paramDesc:  "Temporary branch name in internal repository"
     paramType: string
 scm:
-  gitURL: "ssh://git@github.com:dimtruck/OpenStackProject.git"
+  gitURL: "ssh://git@github.com/dimtruck/OpenStackProject.git"
   gitBranch: "<%text>${BranchName}</%text>"
   extensions: 
     cleanbeforecheckout: True
 blockOnUpstream: True    
 virtualenvBuilder:
   command: |
-           pip install junitxml
-           tox -e py27
-           testr last --subunit | subunit2junitxml &gt; results.xml
+           pip install -rrequirements.txt
+           pip install -U pytest
+           pip install pytest-cov
+           py.test --cov demo tests/ --cov-report xml --junitxml=results.xml
+           ./unit_tests.sh 
 junitArchiver:
   testResults: results.xml
   keepLongStdio: False

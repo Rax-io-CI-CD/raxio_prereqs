@@ -18,7 +18,7 @@ buildParams:
     paramDesc:  "Private repository upstream branch"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
+    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: MergeRepo
@@ -73,12 +73,12 @@ shell_build_command:
            [ &quot;`git remote | grep upstream`&quot; == &quot;upstream&quot; ] || git remote add upstream $PrivateRepo
 
            #setup the private remote for the build script
-           [ &quot;`git remote | grep private_repo`&quot; == &quot;private_repo&quot; ] ||  git remote add private_repo $PrivateRepo
-           git fetch private_repo
+           [ &quot;`git remote | grep internal_repo`&quot; == &quot;internal_repo&quot; ] ||  git remote add internal_repo $PrivateRepo
+           git fetch internal_repo
            PrivateRepo=&quot;public_repo&quot;
 
            #get the previous built version for the changelog
-           bool_args=&quot;$bool_args -e private_repo/master&quot;
+           bool_args=&quot;$bool_args -e internal_repo/master&quot;
 
            cd ..
 
