@@ -23,5 +23,3 @@ shell_build_command:
 junitArchiver:
   testResults: results.xml
   keepLongStdio: False
-rubyProxyObject:
-  pipList: "tox&lt;1.7"

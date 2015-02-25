@@ -9,6 +9,11 @@ buildParams:
     paramValue: "Temporary branch name in internal repository"
     paramDesc:  "Temporary branch name in internal repository"
     paramType: string
+buildParams:
+  - paramName: Repo
+    paramValue: "internal repository"
+    paramDesc:  "internal repository"
+    paramType: string
 scm:
   gitURL: "ssh://git@github.com/dimtruck/raxio_deployment.git"
   gitBranch: "*/master"
@@ -18,9 +23,28 @@ shell_build_command:
   - build: |
            <%text>#!/bin/bash
            . ~/.profile
-           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook spin_up.yml -i inventory/functional_server/ --tags &quot;new-nodes,new-b-nodes,setup_chef,map-b-dns,drain,test-live,clean-up&quot; -vvvv --private-key ~/.ssh/id_rsa</%text>
+
+           if [ -d internal_repo ]; then
+             rm -rf internal_repo
+           fi
+           git clone ${Repo} internal_repo
+
+           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/functional/ --tags "green-lb,blue-lb,green-nodes,blue-nodes,deploy" -vvvv --private-key /var/lib/jenkins/.ssh/id_rsa --extra-vars "group_environ=functional"
+
+           cd internal_repo
+
+           virtualenv .
+           . bin/activate
+           pip install -rrequirements.txt
+           pip install -U pytest
+           pip install pep8
+           py.test functionaltests/ --junitxml=../results.xml
+
+           deactivate
+
+           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/functional/ --tags "clean-up-blue" -vvvv --private-key /var/lib/jenkins/.ssh/id_rsa --extra-vars "group_environ=functional"
+
+           </%text>
 junitArchiver:
   testResults: results.xml
   keepLongStdio: False
-rubyProxyObject:
-  pipList: "tox&lt;1.7"

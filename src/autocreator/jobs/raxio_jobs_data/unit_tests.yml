@@ -19,8 +19,8 @@ virtualenvBuilder:
   command: |
            pip install -rrequirements.txt
            pip install -U pytest
-           pip install pytest-cov
-           py.test --cov demo tests/ --cov-report xml --junitxml=results.xml
+           pip install pep8
+           py.test . --junitxml=results.xml
            ./unit_tests.sh 
 junitArchiver:
   testResults: results.xml
