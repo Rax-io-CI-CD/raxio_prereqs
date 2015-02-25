@@ -41,6 +41,8 @@ shell_build_command:
 
            deactivate
 
+           cd ..
+
            ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/performance/ --tags "clean-up-blue" -vvvv --private-key /var/lib/jenkins/.ssh/id_rsa --extra-vars "group_environ=performance"</%text>
 junitArchiver:
   testResults: results.xml
