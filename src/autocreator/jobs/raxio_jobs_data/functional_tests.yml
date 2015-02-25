@@ -18,8 +18,6 @@ shell_build_command:
   - build: |
            <%text>#!/bin/bash
            . ~/.profile
-           python ~/dev_setup_arbor_version.py roles/deploy/files/override_attributes.json functional git ${sha1}
-
            ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook spin_up.yml -i inventory/functional_server/ --tags &quot;new-nodes,new-b-nodes,setup_chef,map-b-dns,drain,test-live,clean-up&quot; -vvvv --private-key ~/.ssh/id_rsa</%text>
 junitArchiver:
   testResults: results.xml

@@ -7,7 +7,7 @@ template "/var/lib/jenkins/gerrit-trigger.xml" do
   variables(
     :gerrit_host_name => 'raxio2015-gerrit.dimitryushakov.com' ,
     :gerrit_host_port => 29418,
-    :gerrit_user_name => 'raxio-demo',
+    :gerrit_user_name => 'dimalg',
     :gerrit_email => 'dimalg@gmail.com'
   )
 end
@@ -59,6 +59,6 @@ template "/var/lib/jenkins/org.jenkinsci.plugins.ghprb.GhprbTrigger.xml" do
     :password => 'PASSWORD',
     :access_token => 'ACCESS_TOKEN',
     :admin_list => 'ADMIN_LIST',
-    :published_url => 'http://ci.dimitryushakov.com/'
+    :published_url => 'GROK_URL'
   )
 end

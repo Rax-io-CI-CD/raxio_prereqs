@@ -10,5 +10,5 @@ dsl: |
       build(&quot;raxio_jobs_data_green_nodes_deployer&quot;),
       build(&quot;raxio_jobs_data_green_cleanup&quot;)
      } rescue {
-      build( &quot;raxio_jobs_data_blue_nodes_deployer_rescue&quot;)
+      build( &quot;raxio_jobs_data_green_nodes_deployer_rescue&quot;)
      }

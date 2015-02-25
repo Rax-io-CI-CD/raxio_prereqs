@@ -5,7 +5,7 @@ job_description: Triggered when an upstream patch is pushed upstream
 artifactNumToKeep: 10
 buildParams:
   - paramName: PublicRepo
-    paramValue: "ssh://git@github.com:Rax-io-CI-CD/OpenStackProject.git"
+    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
     paramDesc:  Public repository (Openstack)
     paramType: string
   - paramName: PublicRepoBranch
@@ -13,7 +13,7 @@ buildParams:
     paramDesc:  "Public repository branch (Openstack/master)"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "ENTER YOUR CLONED REPO HERE"
+    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: PrivateRepoBranch
@@ -25,7 +25,7 @@ envInjectJobProperty:
            echo &quot;GERRIT_REFSPEC:$GERRIT_REFSPEC&quot; 
            echo &quot;GERRIT_BRANCH:$GERRIT_BRANCH&quot;
 scm:
-  gitURL: "ssh://rax-demo@raxio2015-gerrit.dimitryushakov.com:29418/raxio-cd-demo"
+  gitURL: "ssh://dimalg@raxio2015-gerrit.dimitryushakov.com:29418/raxio-cd-demo"
   gitBranch: "$GERRIT_REFSPEC"
   refSpec: "refs/changes/*:refs/changes/*"
   extensions:
@@ -42,11 +42,11 @@ shell_build_command:
            # Set up a build branch for Arbor-Build to use
            gerrit_internal_branch=&quot;${GERRIT_REFSPEC//\//-}&quot;  
 
-           git remote add internal_repo ${PublicRepo}|| echo &quot;PublicRepo set&quot;
+           git remote add internal_repo ${PrivateRepo}|| echo &quot;PrivateRepo set&quot;
            git fetch internal_repo -a
            git branch -D internal_repo/$gerrit_internal_branch || echo &quot;branch:$gerrit_internal_branch does not exist... creating&quot;
            git checkout -b $gerrit_internal_branch
-           git push PublicRepo $gerrit_internal_branch -f
+           git push internal_repo $gerrit_internal_branch -f
            echo &quot;gerrit_internal_branch=$gerrit_internal_branch&quot; &gt;&gt; gerrit_internal_branch.txt</%text>
 envInjectBuilder: "gerrit_internal_branch.txt"                     
 triggerBuilder:
@@ -56,7 +56,7 @@ triggerBuilder:
   properties: |
               <%text>deploy=true
               DontPush=false
-              PublicRepo=${PublicRepo}
+              PrivateRepo=${PrivateRepo}
               UpstreamBranch=${gerrit_internal_branch}
               PrivateRepoBranch=${PrivateRepoBranch}</%text>
   projects: raxio_jobs_data_upstream_patch_build_flow

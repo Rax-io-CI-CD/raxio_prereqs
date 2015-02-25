@@ -87,7 +87,7 @@ shell_build_command:
 
            #the build script writes the branch/tag name it creates to an optional file
            chmod u+x build-raxio
-           ./build-raxio -h $UpstreamBranch -m $Milestone -r $PrivateRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/jenkins_rsa
+           ./build-raxio -h $UpstreamBranch -m $Milestone -r $PrivateRepo $bool_args -o ${BUILD_VARS} -i /var/lib/jenkins/.ssh/id_rsa #/var/lib/jenkins/.ssh/jenkins_rsa
 
            #take the branch name and turn it into the expected properties format
            BUILD_NAME=`cat ${BUILD_VARS}`

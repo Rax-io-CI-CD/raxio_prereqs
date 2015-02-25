@@ -4,7 +4,7 @@
 job_description: Deploy to green nodes
 artifactNumToKeep: 10
 scm:
-  gitURL: "ssh://git@github.com:/imtruck/raxio_deployment.git"
+  gitURL: "ssh://git@github.com/dimtruck/raxio_deployment.git"
   gitBranch: "*/master"
   extensions: 
     cleanbeforecheckout: True

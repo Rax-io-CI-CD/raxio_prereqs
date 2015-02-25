@@ -7,11 +7,11 @@ numOfJobsToKeep: 10
 daysToKeep: 10
 buildParams:
   - paramName: Milestone
-    paramValue: "Upstream release milestone (eg. &quot;j1&quot; for milestone juno 1). (Openstack)"
+    paramValue: "k1"
     paramDesc:  "Upstream release milestone (eg. &quot;j1&quot; for milestone juno 1). (Openstack)"
     paramType: string
   - paramName: OpenstackVersion
-    paramValue: "Openstack or Stackforge version (eg. &quot;2014&quot;). (Openstack)"
+    paramValue: "2015"
     paramDesc:  "Openstack or Stackforge version (eg. &quot;2014&quot;). (Openstack)"
     paramType: string
   - paramName: UpstreamBranch
@@ -19,15 +19,15 @@ buildParams:
     paramDesc:  "Private repository upstream branch"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "Private repository (Company specific)"
+    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: MergeRepo
-    paramValue: "Repository that contains a list of downstream patches"
+    paramValue: "https://github.com/Rax-io-CI-CD/Rax-io-build.git"
     paramDesc:  "Repository that contains a list of downstream patches"
     paramType: string
   - paramName: MergeRepoBranch
-    paramValue: "Repository branch that contains a list of downstream patches"
+    paramValue: "master"
     paramDesc:  "Repository branch that contains a list of downstream patches"
     paramType: string
 scm:
