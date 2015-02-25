@@ -44,12 +44,12 @@ dsl: |
 
      guard {
       parallel ([
-        functional_tests:  { build(&quot;raxio_jobs_data_functional_tests&quot;, sha1: sha1, BranchName: branch, Repo: ${PrivateRepo}) },
-        performance_tests:  { build(&quot;raxio_jobs_data_performance_tests&quot;, sha1: sha1, BranchName: branch, Repo: ${PrivateRepo}) }
+        functional_tests:  { build(&quot;raxio_jobs_data_functional_tests&quot;, sha1: sha1, BranchName: branch, Repo: params.get("PrivateRepo"))) },
+        performance_tests:  { build(&quot;raxio_jobs_data_performance_tests&quot;, sha1: sha1, BranchName: branch, Repo: params.get("PrivateRepo"))) }
       ])
       parallel (
-        { build(&quot;raxio_jobs_data_snapshot_deployer&quot;, BranchName: branch, Repo: ${PrivateRepo}) },
-        { build(&quot;raxio_jobs_data_sonar&quot;, BranchName: branch, Repo: ${PrivateRepo}) }
+        { build(&quot;raxio_jobs_data_snapshot_deployer&quot;, BranchName: branch, Repo: params.get("PrivateRepo"))) },
+        { build(&quot;raxio_jobs_data_sonar&quot;, BranchName: branch, Repo: params.get("PrivateRepo"))) }
       )
      } rescue {
       build( &quot;raxio_jobs_data_cleanup&quot;, BranchName: branch )
