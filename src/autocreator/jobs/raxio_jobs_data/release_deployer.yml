@@ -22,36 +22,10 @@ shell_build_command:
   - build: |
            <%text>#!/bin/bash
            . ~/.profile
-           rm -rf arbor-${RELEASE_TAG}
-           virtualenv arbor-${RELEASE_TAG}
-           rm -rf arbor-${RELEASE_TAG}/source
-           mkdir -p arbor-${RELEASE_TAG}/source
-           cp -R contrib coverage.sh doc Dockerfile etc examples functionaltests HACKING.rst LICENSE MANIFEST.in openstack-common.conf README.rst requirements.txt setup.cfg setup.py solum test-requirements.txt tools tox.ini -t arbor-${RELEASE_TAG}/source/
-           git clone git@github.com:rackerlabs/arbor_labs-cookbook-arbor_lab.git arbor-${RELEASE_TAG}/chef
-           cd arbor-${RELEASE_TAG}/chef
-           git checkout arborlabs_on_solum
-           berks vendor .chef/cookbooks
-           cd ../..
-           . arbor-${RELEASE_TAG}/bin/activate
-           pip install -r test-requirements.txt
-           pip install -r requirements.txt
-           pip install .
-           pip uninstall librabbitmq
-           virtualenv --relocatable arbor-${RELEASE_TAG}
-           tar czvf arbor-${RELEASE_TAG}.tar.gz arbor-${RELEASE_TAG}/
-           deactivate
+           ~/bin/linux/amd64/github-release release -u dimtruck -r OpenStackProject -t v${RELEASE_TAG} -n &quot;${RELEASE_TAG}&quot; -d &quot;${RELEASE_DESCRIPTION}&quot;
 
-           if ${IS_PRE_RELEASE} ; then
-             ~/bin/linux/amd64/github-release release -u rackerlabs -r arbor -t v${RELEASE_TAG} -n &quot;${RELEASE_TAG}&quot; -d &quot;${RELEASE_DESCRIPTION}&quot; -p
-           else
-             ~/bin/linux/amd64/github-release release -u rackerlabs -r arbor -t v${RELEASE_TAG} -n &quot;${RELEASE_TAG}&quot; -d &quot;${RELEASE_DESCRIPTION}&quot;
-           fi
-
-           ~/bin/linux/amd64/github-release upload -u rackerlabs -r arbor -t v${RELEASE_TAG} -n &quot;arbor-${RELEASE_TAG}&quot; --file arbor-${RELEASE_TAG}.tar.gz
+           ~/bin/linux/amd64/github-release release -u dimtruck -r OpenStackProject -t v${RELEASE_TAG} -n &quot;raxio-${RELEASE_TAG}&quot; --file raxio-${RELEASE_TAG}.tar.gz
            cd ~/
-           ansible-playbook ~/push-to-files-release.yml --extra-vars &quot;name=/var/lib/jenkins/jobs/arbor_release_deployer/workspace/arbor-${RELEASE_TAG}.tar.gz&quot; -vvvv</%text>
+           ansible-playbook push-to-files-release.yml --extra-vars &quot;name=/var/lib/jenkins/jobs/raxio_jobs_data_release_deployer/workspace/raxio-${RELEASE_TAG}.tar.gz&quot; -vvvv</%text>
 rubyProxyObject:
   pipList: "tox&lt;1.7"
-buildTrigger:
-  projects: "raxio_jobs_data_blue_node_deployer"
-  triggerCondition: SUCCESS

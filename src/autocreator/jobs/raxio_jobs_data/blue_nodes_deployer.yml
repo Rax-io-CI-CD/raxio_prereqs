@@ -12,7 +12,7 @@ shell_build_command:
   - build: |
            <%text>#!/bin/bash
            . ~/.profile
-           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/production/ --tags &quot;green-nodes,blue-nodes,deploy,test-blue&quot; -vvvv --private-key /var/lib/jenkins/.ssh/id_rsa --extra-vars &quot;group_environ=production&quot;</%text>
+           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/production/ --tags &quot;green-lb,blue-lb,green-nodes,blue-nodes,deploy,test-blue&quot; -vvvv --private-key /var/lib/jenkins/.ssh/id_rsa --extra-vars &quot;group_environ=production&quot;</%text>
 junitArchiver:
   testResults: results.xml
   keepLongStdio: False
