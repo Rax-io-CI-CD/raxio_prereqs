@@ -28,7 +28,7 @@ shell_build_command:
            fi
            git clone ${Repo} internal_repo
 
-           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/functional/ --tags "green-lb,blue-lb,green-nodes,blue-nodes,deploy" -vvvv --private-key /var/lib/jenkins/.ssh/id_rsa --extra-vars "group_environ=functional"
+           ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/functional/ --tags "green-lb,blue-lb,green-nodes,blue-nodes,deploy" -vvvv --private-key /var/lib/jenkins/.ssh/id_rsa --extra-vars "group_environ=functional openstack_repo=${Repo}"
 
            cd internal_repo
 
