@@ -20,7 +20,7 @@ virtualenvBuilder:
            pip install -rrequirements.txt
            pip install -U pytest
            pip install pytest-cov
-           py.test --cov demo tests/ --cov-report xml --junitxml=results.xml
+           py.test --cov cherrypy functionaltests/ --cov-report xml --junitxml=results.xml
            ./unit_tests.sh 
 sonarBuilder:
   properties: |

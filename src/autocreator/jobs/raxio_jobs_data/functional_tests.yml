@@ -9,7 +9,6 @@ buildParams:
     paramValue: "Temporary branch name in internal repository"
     paramDesc:  "Temporary branch name in internal repository"
     paramType: string
-buildParams:
   - paramName: Repo
     paramValue: "internal repository"
     paramDesc:  "internal repository"

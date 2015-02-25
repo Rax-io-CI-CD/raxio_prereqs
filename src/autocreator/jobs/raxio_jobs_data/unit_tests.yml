@@ -9,6 +9,10 @@ buildParams:
     paramValue: "Temporary branch name in internal repository"
     paramDesc:  "Temporary branch name in internal repository"
     paramType: string
+  - paramName: BranchName
+    paramValue: "Temporary branch name in internal repository"
+    paramDesc:  "Temporary branch name in internal repository"
+    paramType: string
 scm:
   gitURL: "ssh://git@github.com/dimtruck/OpenStackProject.git"
   gitBranch: "<%text>${BranchName}</%text>"
