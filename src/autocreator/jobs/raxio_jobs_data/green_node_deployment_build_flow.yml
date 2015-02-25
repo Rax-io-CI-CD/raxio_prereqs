@@ -7,7 +7,7 @@ numOfJobsToKeep: 10
 daysToKeep: 10
 dsl: |
      guard {
-      build(&quot;raxio_jobs_data_green_nodes_deployer&quot;),
+      build(&quot;raxio_jobs_data_green_nodes_deployer&quot;)
       build(&quot;raxio_jobs_data_release_deployer_cleanup&quot;)
      } rescue {
       build( &quot;raxio_jobs_data_green_nodes_deployer_rescue&quot;)
