@@ -1,7 +1,7 @@
 <%include file="trigger_defaults.yml"/>
 <%include file="default.yml"/>
 
-job_description: Functional tests (with cloud cafe)
+job_description: Functional tests
 numOfJobsToKeep: 10
 daysToKeep: 7
 buildParams:
@@ -34,6 +34,7 @@ shell_build_command:
 
            virtualenv .
            . bin/activate
+           pip install -rtest-requirements.txt
            pip install -rrequirements.txt
            pip install -rtest-requirements.txt
            pip install -U nose
