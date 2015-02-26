@@ -21,6 +21,7 @@ scm:
 blockOnUpstream: True    
 virtualenvBuilder:
   command: |
+           pip install -rtest-requirements.txt
            pip install -rrequirements.txt
            pip install -U pytest
            pip install pep8
