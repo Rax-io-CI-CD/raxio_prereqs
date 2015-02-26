@@ -22,6 +22,10 @@ buildParams:
     paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
+  - paramName: HttpsPrivateRepo
+    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
+    paramDesc:  Private repository (Company specific)
+    paramType: string
   - paramName: MergeRepo
     paramValue: "https://github.com/Rax-io-CI-CD/Rax-io-build.git"
     paramDesc:  "Repository that contains a list of downstream patches"
@@ -44,12 +48,12 @@ dsl: |
 
      guard {
       parallel ([
-        functional_tests:  { build(&quot;raxio_jobs_data_functional_tests&quot;, sha1: sha1, BranchName: branch, Repo: params.get("PrivateRepo")) },
-        performance_tests:  { build(&quot;raxio_jobs_data_performance_tests&quot;, sha1: sha1, BranchName: branch, Repo: params.get("PrivateRepo")) }
+        functional_tests:  { build(&quot;raxio_jobs_data_functional_tests&quot;, sha1: sha1, BranchName: branch, Repo: params.get("HttpsPrivateRepo")) },
+        performance_tests:  { build(&quot;raxio_jobs_data_performance_tests&quot;, sha1: sha1, BranchName: branch, Repo: params.get("HttpsPrivateRepo")) }
       ])
       parallel (
-        { build(&quot;raxio_jobs_data_snapshot_deployer&quot;, BranchName: branch, Repo: params.get("PrivateRepo")) },
-        { build(&quot;raxio_jobs_data_sonar&quot;, BranchName: branch, Repo: params.get("PrivateRepo")) }
+        { build(&quot;raxio_jobs_data_snapshot_deployer&quot;, BranchName: branch, Repo: params.get("HttpsPrivateRepo")) },
+        { build(&quot;raxio_jobs_data_sonar&quot;, BranchName: branch, Repo: params.get("HttpsPrivateRepo")) }
       )
      } rescue {
       build( &quot;raxio_jobs_data_cleanup&quot;, BranchName: branch )

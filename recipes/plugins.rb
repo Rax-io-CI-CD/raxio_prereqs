@@ -32,11 +32,13 @@ template "/var/lib/jenkins/hudson.plugins.sonar.SonarPublisher.xml" do
   notifies :restart, 'service[jenkins]', :delayed
   variables(
     :name => 'raxio-sonar-test',
-    :server_url => 'http://localhost:8001',
+    :server_url => 'http://localhost:9000',
     :database_url => 'jdbc:h2:tcp://localhost:9092/sonar',
     :database_driver => '',
-    :database_login => 'admin',
-    :database_password => 'admin'
+    :database_login => 'sonar',
+    :database_password => 'sonar',
+    :sonar_login => 'admin',
+    :sonar_password => 'admin'
   )
 end
 

@@ -18,10 +18,14 @@ jdk: "(Inherit From Job)"
 virtualenvBuilder:
   command: |
            pip install -rrequirements.txt
-           pip install -U pytest
-           pip install pytest-cov
-           py.test --cov cherrypy functionaltests/ --cov-report xml --junitxml=results.xml
-           ./unit_tests.sh 
+           pip install -rtest-requirements.txt
+           pip install -U nose
+           pip install pep8
+           pip install -U coverage
+           python app.py &amp;
+           pid=$!
+           nosetests functionaltests/ -v --all-modules --with-xunit --with-coverage --cover-xml
+           kill -9 $pid
 sonarBuilder:
   properties: |
               # required metadata
@@ -43,7 +47,7 @@ sonarBuilder:
               sonar.language=py
               sonar.sourceEncoding=UTF-8
               sonar.python.coverage.reportPath=coverage.xml
-              sonar.python.xunit.reportPath=results.xml
+              sonar.python.xunit.reportPath=nosetests.xml
               #sonar.python.xunit.itReportPath=it-pytests.xml
               #sonar.python.coverage.itReportPath=it-coverage.xml
 

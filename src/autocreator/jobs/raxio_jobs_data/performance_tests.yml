@@ -32,6 +32,14 @@ shell_build_command:
 
            cd internal_repo
 
+           virtualenv .
+           . bin/activate
+           pip install -rrequirements.txt
+           pip install -rtest-requirements.txt
+           python app.py &amp;
+           pid=$!
+           deactivate
+
            wget https://oss.sonatype.org/content/repositories/releases/io/gatling/highcharts/gatling-charts-highcharts-bundle/2.1.4/gatling-charts-highcharts-bundle-2.1.4-bundle.zip
 
            unzip gatling-charts-highcharts-bundle-2.1.4-bundle.zip
@@ -40,14 +48,13 @@ shell_build_command:
 
            mkdir gatling-charts-highcharts-bundle-2.1.4/user-files/simulations/performance
 
-           ln -s gatling-charts-highcharts-bundle-2.1.4/bin/gatling.sh /usr/bin/gatling
-
            cp performancetests/* gatling-charts-highcharts-bundle-2.1.4/user-files/simulations/performance/
 
-           gatling -s performance
+           gatling-charts-highcharts-bundle-2.1.4/bin/gatling.sh -s performance
+
+           kill -9 $pid
+
+           cd ..
 
            ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS=&apos;-o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=60s -o PubkeyAuthentication=yes&apos; ansible-playbook deploy.yml -i inventory/performance/ --tags "clean-up-blue" -vvvv --private-key /var/lib/jenkins/.ssh/id_rsa --extra-vars "group_environ=performance"</%text>
-junitArchiver:
-  testResults: results.xml
-  keepLongStdio: False
 gatlingPublisher: True  

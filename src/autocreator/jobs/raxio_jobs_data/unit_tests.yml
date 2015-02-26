@@ -22,6 +22,7 @@ blockOnUpstream: True
 virtualenvBuilder:
   command: |
            pip install -rrequirements.txt
+           pip install -rtest-requirements.txt
            pip install -U pytest
            pip install pep8
            py.test . --junitxml=results.xml

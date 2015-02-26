@@ -153,3 +153,21 @@ end
 include_recipe 'raxio::plugins'
 
 include_recipe 'sonarqube::default'
+
+remote_file '/opt/sonarqube-5.0/extensions/plugins/sonar-python-plugin-1.3.jar' do
+  source 'http://repository.codehaus.org/org/codehaus/sonar-plugins/python/sonar-python-plugin/1.3/sonar-python-plugin-1.3.jar'
+  action :create_if_missing
+  notifies :restart, "service[sonarqube]", :delayed
+end
+
+remote_file '/opt/sonarqube-5/extensions/plugins/sonar-generic-coverage-plugin-1.1.jar' do
+  source 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-generic-coverage-plugin/1.1/sonar-generic-coverage-plugin-1.1.jar'
+  action :create_if_missing
+  notifies :restart, "service[sonarqube]", :delayed
+end
+
+remote_file '/opt/sonarqube-5/extensions/plugins/sonar-scm-stats-plugin-0.3.1.jar' do
+  source 'http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-scm-stats-plugin/0.3.1/sonar-scm-stats-plugin-0.3.1.jar'
+  action :create_if_missing
+  notifies :restart, "service[sonarqube]", :immediately  
+end

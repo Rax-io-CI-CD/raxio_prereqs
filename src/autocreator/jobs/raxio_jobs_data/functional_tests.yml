@@ -35,9 +35,14 @@ shell_build_command:
            virtualenv .
            . bin/activate
            pip install -rrequirements.txt
-           pip install -U pytest
+           pip install -rtest-requirements.txt
+           pip install -U nose
            pip install pep8
-           py.test functionaltests/ --junitxml=../results.xml
+           pip install -U coverage
+           python app.py &amp;
+           pid=$!
+           nosetests functionaltests/ -v --all-modules --with-xunit --with-coverage --cover-xml
+           kill -9 $pid
 
            deactivate
 
@@ -47,5 +52,5 @@ shell_build_command:
 
            </%text>
 junitArchiver:
-  testResults: results.xml
+  testResults: "**/nosetests.xml"
   keepLongStdio: False
