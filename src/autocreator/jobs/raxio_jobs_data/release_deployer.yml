@@ -24,8 +24,5 @@ shell_build_command:
            . ~/.profile
            ~/bin/linux/amd64/github-release release -u dimtruck -r OpenStackProject -t v${RELEASE_TAG} -n &quot;${RELEASE_TAG}&quot; -d &quot;${RELEASE_DESCRIPTION}&quot;
 
-           ~/bin/linux/amd64/github-release release -u dimtruck -r OpenStackProject -t v${RELEASE_TAG} -n &quot;raxio-${RELEASE_TAG}&quot; --file raxio-${RELEASE_TAG}.tar.gz
-           cd ~/
-           ansible-playbook push-to-files-release.yml --extra-vars &quot;name=/var/lib/jenkins/jobs/raxio_jobs_data_release_deployer/workspace/raxio-${RELEASE_TAG}.tar.gz&quot; -vvvv</%text>
-rubyProxyObject:
-  pipList: "tox&lt;1.7"
+           #~/bin/linux/amd64/github-release release -u dimtruck -r OpenStackProject -t v${RELEASE_TAG} -n &quot;raxio-${RELEASE_TAG}&quot; --file raxio-${RELEASE_TAG}.tar.gz
+           </%text>

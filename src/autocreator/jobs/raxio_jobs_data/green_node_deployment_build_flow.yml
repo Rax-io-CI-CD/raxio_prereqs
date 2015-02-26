@@ -2,13 +2,22 @@
 <%include file="default.yml"/>
 
 job_description: Orchestrates the green node deployment and test
+buildParams:
+  - paramName: Repo
+    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
+    paramDesc:  "internal repository"
+    paramType: string
 artifactNumToKeep: 10
 numOfJobsToKeep: 10
 daysToKeep: 10
 dsl: |
      guard {
-      build(&quot;raxio_jobs_data_green_nodes_deployer&quot;)
-      build(&quot;raxio_jobs_data_release_deployer_cleanup&quot;)
+      green_nodes_deployer = build(&quot;raxio_jobs_data_green_nodes_deployer&quot;, Repo: params.get("Repo"))
+      out.println green_nodes_deployer.result.name
+      release_deployer_cleanup = build(&quot;raxio_jobs_data_release_deployer_cleanup&quot;)
+      out.println release_deployer_cleanup.result.name 
      } rescue {
-      build( &quot;raxio_jobs_data_green_nodes_deployer_rescue&quot;)
+       if(release_deployer_cleanup.result.name.equals("FAILURE") || green_nodes_deployer.result.name.equals("FAILURE")){
+          build( &quot;raxio_jobs_data_blue_nodes_deployer_rescue&quot;)
+       }
      }

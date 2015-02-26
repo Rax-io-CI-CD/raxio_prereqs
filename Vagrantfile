@@ -45,6 +45,7 @@ Vagrant.configure("2") do |config|
     raxiodemo.vm.provision :shell, inline: "cd /usr/autocreator && sudo ./autocreator.py -d jobs -job raxio_jobs_data -url 'localhost:8080' -http"
     raxiodemo.vm.provision :shell, inline: "sudo mv /home/vagrant/public_upstream_merge.sh /var/lib/jenkins/public_upstream_merge.sh && sudo chmod u+x /var/lib/jenkins/public_upstream_merge.sh && sudo chown jenkins:jenkins /var/lib/jenkins/public_upstream_merge.sh"
     raxiodemo.vm.provision :shell, inline: "sudo cp /usr/ansible/rax.py /usr/share/pyshared/ansible/modules/core/cloud/rackspace/rax.py"
+    raxiodemo.vm.provision :shell, inline: "sudo wget https://github.com/aktau/github-release/releases/download/v0.5.3/linux-amd64-github-release.tar.bz2 && sudo tar xjf linux-amd64-github-release.tar.bz2 && sudo chown -R jenkins:jenkins bin && sudo mv bin /var/lib/jenkins/"
   end
 
 end

@@ -5,10 +5,27 @@ job_description: Orchestrates the blue node deployment and test
 artifactNumToKeep: 10
 numOfJobsToKeep: 10
 daysToKeep: 10
+buildParams:
+  - paramName: RELEASE_TAG
+    paramValue: "Release tag"
+    paramDesc:  "Release tag"
+    paramType: string
+  - paramName: RELEASE_DESCRIPTION
+    paramValue: "Release description"
+    paramDesc:  "Release description"
+    paramType: string
+  - paramName: Repo
+    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
+    paramDesc:  "internal repository"
+    paramType: string
 dsl: |
-     build(&quot;raxio_jobs_data_release_deployer&quot;)
+     release_deployer = build(params, &quot;raxio_jobs_data_release_deployer&quot;)
+     out.println release_deployer.result.name
      guard {
-      build(&quot;raxio_jobs_data_blue_nodes_deployer&quot;)
+      blue_nodes_deployer = build(&quot;raxio_jobs_data_blue_nodes_deployer&quot;, Repo: params.get("Repo"))
+      out.println blue_nodes_deployer.result.name 
      } rescue {
-      build( &quot;raxio_jobs_data_blue_nodes_deployer_rescue&quot;)
+       if(blue_nodes_deployer.result.name.equals("FAILURE")){
+          build( &quot;raxio_jobs_data_blue_nodes_deployer_rescue&quot;)
+       }
      }
