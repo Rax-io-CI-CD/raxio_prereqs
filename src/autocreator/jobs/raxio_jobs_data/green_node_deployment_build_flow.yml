@@ -17,7 +17,7 @@ dsl: |
       release_deployer_cleanup = build(&quot;raxio_jobs_data_release_deployer_cleanup&quot;)
       out.println release_deployer_cleanup.result.name 
      } rescue {
-       if(release_deployer_cleanup.result.name.equals("FAILURE") || green_nodes_deployer.result.name.equals("FAILURE")){
+       if(green_nodes_deployer.result.name.equals("FAILURE")){
           build( &quot;raxio_jobs_data_blue_nodes_deployer_rescue&quot;)
        }
      }
