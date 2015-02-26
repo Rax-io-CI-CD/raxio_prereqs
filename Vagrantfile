@@ -38,7 +38,6 @@ Vagrant.configure("2") do |config|
     raxiodemo.vm.synced_folder "src/autocreator", "/usr/autocreator/"
     raxiodemo.vm.provision "file", source: "src/ansible.cfg", destination: "/home/vagrant/.ansible.cfg"
     raxiodemo.vm.provision "file", source: "src/profile", destination: "/home/vagrant/.profile"
-    raxiodemo.vm.provision "file", source: "src/raxpub", destination: "/var/lib/jenkins/.raxpub"
     raxiodemo.vm.provision "file", source: "src/ansible_hosts", destination: "/home/vagrant/ansible_hosts"
     raxiodemo.vm.provision "file", source: "src/public_upstream_merge.sh", destination: "/home/vagrant/public_upstream_merge.sh"
     raxiodemo.vm.provision :shell, inline: "cd /usr/autocreator && sudo pip install -rrequirements.txt"
