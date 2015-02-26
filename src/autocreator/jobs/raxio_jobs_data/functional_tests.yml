@@ -32,6 +32,8 @@ shell_build_command:
 
            cd internal_repo
 
+           git checkout ${BranchName}
+
            virtualenv .
            . bin/activate
            pip install -rtest-requirements.txt

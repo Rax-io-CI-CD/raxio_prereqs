@@ -33,4 +33,9 @@
     <contributors/>
   </EnvInjectJobProperty>
   % endif
+  % if githubProject:
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.10">
+      <projectUrl>${githubProject}</projectUrl>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+  % endif 
 </properties>
