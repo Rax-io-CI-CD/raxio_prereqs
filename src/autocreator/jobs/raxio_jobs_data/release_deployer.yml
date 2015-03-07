@@ -22,7 +22,7 @@ shell_build_command:
   - build: |
            <%text>#!/bin/bash
            . ~/.profile
-           ~/bin/linux/amd64/github-release release -u dimtruck -r OpenStackProject -t v${RELEASE_TAG} -n &quot;${RELEASE_TAG}&quot; -d &quot;${RELEASE_DESCRIPTION}&quot;
+           ~/bin/linux/amd64/github-release release -u dimtruck -r raxio-cd-demo -t v${RELEASE_TAG} -n &quot;${RELEASE_TAG}&quot; -d &quot;${RELEASE_DESCRIPTION}&quot;
 
-           #~/bin/linux/amd64/github-release release -u dimtruck -r OpenStackProject -t v${RELEASE_TAG} -n &quot;raxio-${RELEASE_TAG}&quot; --file raxio-${RELEASE_TAG}.tar.gz
+           #~/bin/linux/amd64/github-release release -u dimtruck -r raxio-cd-demo -t v${RELEASE_TAG} -n &quot;raxio-${RELEASE_TAG}&quot; --file raxio-${RELEASE_TAG}.tar.gz
            </%text>
