@@ -14,7 +14,7 @@ buildParams:
     paramDesc:  "Release description"
     paramType: string
 scm:
-  gitURL: "ssh://git@github.com/dimtruck/OpenStackProject.git"
+  gitURL: "ssh://git@github.com/dimtruck/raxio-cd-demo.git"
   gitBranch: "*/master"
   extensions: 
     cleanbeforecheckout: True

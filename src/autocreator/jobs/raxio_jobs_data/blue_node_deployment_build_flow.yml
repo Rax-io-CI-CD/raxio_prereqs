@@ -15,7 +15,7 @@ buildParams:
     paramDesc:  "Release description"
     paramType: string
   - paramName: Repo
-    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
+    paramValue: "https://github.com/dimtruck/raxio-cd-demo.git"
     paramDesc:  "internal repository"
     paramType: string
 dsl: |

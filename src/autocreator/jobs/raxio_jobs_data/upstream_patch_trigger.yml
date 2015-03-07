@@ -5,7 +5,7 @@ job_description: Triggered when an upstream patch is pushed upstream
 artifactNumToKeep: 10
 buildParams:
   - paramName: PublicRepo
-    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
+    paramValue: "ssh://git@github.com/dimtruck/raxio-cd-demo.git"
     paramDesc:  Public repository (Openstack)
     paramType: string
   - paramName: PublicRepoBranch
@@ -13,7 +13,7 @@ buildParams:
     paramDesc:  "Public repository branch (Openstack/master)"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
+    paramValue: "ssh://git@github.com/dimtruck/raxio-cd-demo.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: PrivateRepoBranch

@@ -15,7 +15,7 @@ buildParams:
     paramDesc:  "Internal sha1"
     paramType: string
   - paramName: HttpsPrivateRepo
-    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
+    paramValue: "https://github.com/dimtruck/raxio-cd-demo.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
 dsl: |

@@ -18,7 +18,7 @@ buildParams:
     paramDesc:  "Private repository upstream branch"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
+    paramValue: "ssh://git@github.com/dimtruck/raxio-cd-demo.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: MergeRepo

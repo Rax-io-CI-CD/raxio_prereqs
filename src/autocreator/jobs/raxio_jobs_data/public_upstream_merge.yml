@@ -5,7 +5,7 @@ job_description: Pulls down public code (OpenStack master) to upstream branch of
 artifactNumToKeep: 10
 buildParams:
   - paramName: PublicRepo
-    paramValue: "https://github.com/Rax-io-CI-CD/OpenStackProject.git"
+    paramValue: "https://github.com/Rax-io-CI-CD/raxio-cd-demo.git"
     paramDesc:  Public repository (Openstack)
     paramType: string
   - paramName: PublicRepoBranch
@@ -13,7 +13,7 @@ buildParams:
     paramDesc:  "Public repository branch (Openstack/master)"
     paramType: string  
   - paramName: PrivateRepo
-    paramValue: "ssh://git@github.com/dimtruck/OpenStackProject.git"
+    paramValue: "ssh://git@github.com/dimtruck/raxio-cd-demo.git"
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: PrivateRepoBranch

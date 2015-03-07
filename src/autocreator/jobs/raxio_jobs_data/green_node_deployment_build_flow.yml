@@ -4,7 +4,7 @@
 job_description: Orchestrates the green node deployment and test
 buildParams:
   - paramName: Repo
-    paramValue: "https://github.com/dimtruck/OpenStackProject.git"
+    paramValue: "https://github.com/dimtruck/raxio-cd-demo.git"
     paramDesc:  "internal repository"
     paramType: string
 artifactNumToKeep: 10
