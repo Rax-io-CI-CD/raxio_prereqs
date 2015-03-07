@@ -38,6 +38,7 @@ Vagrant.configure("2") do |config|
     raxiodemo.vm.synced_folder "src/autocreator", "/usr/autocreator/"
     raxiodemo.vm.provision "file", source: "src/ansible.cfg", destination: "/home/vagrant/.ansible.cfg"
     raxiodemo.vm.provision "file", source: "src/profile", destination: "/home/vagrant/.profile"
+    raxiodemo.vm.provision "file", source: "src/raxpub", destination: "/home/vagrant/.raxpub"
     raxiodemo.vm.provision "file", source: "src/ansible_hosts", destination: "/home/vagrant/ansible_hosts"
     raxiodemo.vm.provision "file", source: "src/public_upstream_merge.sh", destination: "/home/vagrant/public_upstream_merge.sh"
     raxiodemo.vm.provision :shell, inline: "cd /usr/autocreator && sudo pip install -rrequirements.txt"
@@ -45,6 +46,8 @@ Vagrant.configure("2") do |config|
     raxiodemo.vm.provision :shell, inline: "sudo mv /home/vagrant/public_upstream_merge.sh /var/lib/jenkins/public_upstream_merge.sh && sudo chmod u+x /var/lib/jenkins/public_upstream_merge.sh && sudo chown jenkins:jenkins /var/lib/jenkins/public_upstream_merge.sh"
     raxiodemo.vm.provision :shell, inline: "sudo cp /usr/ansible/rax.py /usr/share/pyshared/ansible/modules/core/cloud/rackspace/rax.py"
     raxiodemo.vm.provision :shell, inline: "sudo wget https://github.com/aktau/github-release/releases/download/v0.5.3/linux-amd64-github-release.tar.bz2 && sudo tar xjf linux-amd64-github-release.tar.bz2 && sudo chown -R jenkins:jenkins bin && sudo mv bin /var/lib/jenkins/"
+    raxiodemo.vm.provision :shell, inline: "sudo cp /home/vagrant/.raxpub /var/lib/jenkins/.raxpub && sudo chown jenkins:jenkins /var/lib/jenkins/.raxpub"
+    raxiodemo.vm.provision :shell, inline: "sudo cp /home/vagrant/.profile /var/lib/jenkins/.profile && sudo chown jenkins:jenkins /var/lib/jenkins/.profile"
   end
 
 end
