@@ -6,6 +6,6 @@ sudo apt-get update
 # some essentials and pip
 sudo apt-get install build-essential git \
   software-properties-common python-software-properties \
-  python-pip python2.7-dev python-setuptools ansible curl -y
+  python-pip python2.7-dev python-setuptools ansible curl vim -y
 sudo pip install pyrax
 sudo pip install --upgrade six

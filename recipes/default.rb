@@ -89,12 +89,14 @@ jenkins_plugin 'git-parameter' do
   notifies :restart, 'service[jenkins]', :delayed
 end
 jenkins_plugin 'git' do
+  version '2.3.5'  
   notifies :restart, 'service[jenkins]', :delayed
 end
 jenkins_plugin 'github-api' do
   notifies :restart, 'service[jenkins]', :delayed
 end
 jenkins_plugin 'github' do
+  version '1.11'
   notifies :restart, 'service[jenkins]', :delayed
 end
 jenkins_plugin 'ghprb' do
