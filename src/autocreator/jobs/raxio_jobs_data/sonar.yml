@@ -34,7 +34,7 @@ sonarBuilder:
               sonar.projectVersion=1.0
 
               # path to source directories (required)
-              sonar.sources=demo
+              sonar.sources=.
 
               # path to test source directories (optional)
               # sonar.tests=testDir1,testDir2

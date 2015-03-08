@@ -27,7 +27,7 @@ buildParams:
     paramDesc:  Private repository (Company specific)
     paramType: string
   - paramName: MergeRepo
-    paramValue: "https://github.com/Rax-io-CI-CD/Rax-io-build.git"
+    paramValue: "https://github.com/dimtruck/Rax-io-build.git"
     paramDesc:  "Repository that contains a list of downstream patches"
     paramType: string
   - paramName: MergeRepoBranch

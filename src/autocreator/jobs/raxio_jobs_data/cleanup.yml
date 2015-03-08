@@ -14,8 +14,8 @@ scm:
   gitBranch: "<%text>${BranchName}</%text>"
   extensions: 
     cleanbeforecheckout: True
-virtualenvBuilder:
-  command: |
+shell_build_command: 
+  - build: |
            <%text>#!/bin/bash
            . ~/.profile
            git checkout ${BranchName}
